@@ -63,7 +63,12 @@ class BlogController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()  && $form->isValid()) {
-            
+            $article->setCreatedAt(new \DateTime());
+
+            $manager->setpersist($article);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id'=> $article->getmygid()]);
         }
 
         return $this->render('blog/create.html.twig',[
